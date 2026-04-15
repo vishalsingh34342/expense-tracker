@@ -72,6 +72,7 @@ const Form = ({ handleForm, form, handleChange, transaction, balance, resetData,
                 {/* BALANCE */}
                 <h2 className='text-xl font-bold mt-5'>
                     Balance: <span className={balance < 0 ? "text-red-500" : "text-green-400"}>{balance}</span>
+            
                 </h2>
 
                 {/* TRANSACTIONS */}
@@ -96,7 +97,7 @@ const Form = ({ handleForm, form, handleChange, transaction, balance, resetData,
                                 <span className={`w-1/3 ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     {item.type}
                                 </span>
-                                <span onClick={() => deleteItem(index)} className="cursor-pointer text-red-500"><Trash /></span>
+                                <span  onClick={() => deleteItem(index)} className="cursor-pointer text-red-500 hover:scale-105 "><Trash /></span>
                             </div>
                         ))
                     )}

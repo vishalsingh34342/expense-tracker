@@ -22,6 +22,7 @@ const App = () => {
     setIsFirstLoad(false)
 
   }, [])
+  
   //save to local storage
   useEffect(() => {
     if (!isFirstLoad) {
@@ -84,7 +85,7 @@ const App = () => {
   const expense = transaction.filter(item => item.type === "expense").reduce((acc, curr) => acc + Number(curr.amount), 0)
 
   const balance = income - expense;
-  console.log(balance);
+
 
   return (
     <div className='min-h-screen bg-black/50'>
