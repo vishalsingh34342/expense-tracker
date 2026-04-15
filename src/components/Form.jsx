@@ -89,11 +89,11 @@ const Form = ({ handleForm, form, handleChange, transaction, balance, resetData,
                             >
                                 <span className='font-medium truncate w-1/3'>{item.title}</span>
 
-                                <span className={` w-1/3 {item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
+                                <span className={` w-1/3 ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     ₹ {item.amount}
                                 </span>
 
-                                <span className={`w-1/3 {item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
+                                <span className={`w-1/3 ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     {item.type}
                                 </span>
                                 <span onClick={() => deleteItem(index)} className="cursor-pointer text-red-500"><Trash /></span>
