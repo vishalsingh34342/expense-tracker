@@ -87,13 +87,13 @@ const Form = ({ handleForm, form, handleChange, transaction, balance, resetData,
                                 className='flex  sm:flex-row justify-between items-start sm:items-center 
                                 border-b border-white/20 py-2 text-sm gap-1'
                             >
-                                <span className='font-medium'>{item.title}</span>
+                                <span className='font-medium truncate w-1/3'>{item.title}</span>
 
-                                <span className={item.type === "expense" ? "text-red-500" : "text-green-400"}>
+                                <span className={` w-1/3 {item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     ₹ {item.amount}
                                 </span>
 
-                                <span className={item.type === "expense" ? "text-red-500" : "text-green-400"}>
+                                <span className={`w-1/3 {item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     {item.type}
                                 </span>
                                 <span onClick={() => deleteItem(index)} className="cursor-pointer text-red-500"><Trash /></span>
