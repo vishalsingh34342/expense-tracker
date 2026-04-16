@@ -132,7 +132,7 @@ const Form = ({ handleForm, form, handleChange, balance, resetData, deleteItem, 
                                 className='flex  sm:flex-row justify-between mt-4 items-start sm:items-center 
                                 border-b border-white/20 py-2 text-sm gap-1'
                             >
-                                <span className='font-medium truncate w-1/3'>{item.title}</span>
+                                <span className='font-normal truncate w-1/3'>{item.title}</span>
 
                                 <span className={` w-1/3 truncate ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     ₹ {item.amount}
@@ -142,10 +142,10 @@ const Form = ({ handleForm, form, handleChange, balance, resetData, deleteItem, 
                                     {item.type}
                                 </span>
 
-                                <div className='flex gap-5 '>
-                                    <span onClick={() => editList(item.originalIndex)} className="cursor-pointer text-green-500 hover:scale-105 "><PencilIcon /></span>
+                                <div className='flex gap-3 '>
+                                    <span onClick={() => editList(item.originalIndex)} className="cursor-pointer text-green-500 hover:scale-105 "><PencilIcon size={15} /></span>
 
-                                    <span onClick={() => deleteItem(item.originalIndex)} className="cursor-pointer text-red-500 hover:scale-105 "><Trash /></span>
+                                    <span onClick={() => deleteItem(item.originalIndex)} className="cursor-pointer text-red-500 hover:scale-105 "><Trash size={15}/></span>
                                 </div>
 
                             </div>
