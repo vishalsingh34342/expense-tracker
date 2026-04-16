@@ -1,7 +1,8 @@
 import React from 'react';
-import { Trash } from 'lucide-react';
+import { Trash, PencilIcon } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip } from "recharts"
 
-const Form = ({ handleForm, form, handleChange, transaction, balance, resetData, deleteItem }) => {
+const Form = ({ handleForm, form, handleChange, balance, resetData, deleteItem, editList, filteredData, setFilterData, toggleChart, showChart, ChartData }) => {
     return (
         <div className='w-full min-h-screen p-3 bg-[#0f172a] text-white'>
 
@@ -63,41 +64,90 @@ const Form = ({ handleForm, form, handleChange, transaction, balance, resetData,
                 </div>
 
                 {/* LIVE PREVIEW */}
-                <div className='mt-5 w-full max-w-md bg-white/10 p-4 rounded-lg text-sm'>
-                    <p>Title: {form.title}</p>
-                    <p>Amount: {form.amount}</p>
-                    <p>Type: {form.type}</p>
+                <div className='mt-5 w-full max-w-md bg-white/10 p-4 rounded-lg text-sm grid grid-cols-2 gap-2'>
+                    <p>Title:</p>
+                    <p className='text-right'>{form.title || "-"}</p>
+
+                    <p>Amount:</p>
+                    <p className='text-right'>{form.amount || "-"}</p>
+
+                    <p>Type:</p>
+                    <p className='text-right'>{form.type}</p>
                 </div>
 
                 {/* BALANCE */}
                 <h2 className='text-xl font-bold mt-5'>
                     Balance: <span className={balance < 0 ? "text-red-500" : "text-green-400"}>{balance}</span>
-            
+
                 </h2>
 
-                {/* TRANSACTIONS */}
-                <div className='w-full max-w-md mt-5 bg-white/10 p-4 rounded-lg'>
-                    <h2 className='font-semibold mb-2'>Transactions</h2>
 
-                    {transaction.length === 0 ? (
-                        <p className='text-center text-red-400'>No data yet</p>
+                {/* chart logic */}
+                <button type='button' onClick={toggleChart} className='mt-3 px-5 py-2  rounded-xl font-semibold tracking-wide bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 transition-all duration-300 shadow-md hover:shadow-[0_0_15px_rgba(168,85,247,0.7)] active:scale-95'>{showChart ? "Hide Chart" : "Show Chart"}</button>
+
+                {showChart && (
+                    <div className='w-full max-w-md mt-4 bg-white/10 rounded-lg flex justify-center items-center min-h-[200px]'>
+
+                        {ChartData[0].value + ChartData[1].value > 0 ? (
+                            <PieChart width={300} height={300}>
+                                <Pie
+                                    data={ChartData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    outerRadius={100}
+                                >
+                                    {ChartData.map((entry, index) => (
+                                        <Cell
+                                            key={index}
+                                            fill={["#22c55e", "#ef4444"][index]}
+                                        />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        ) : (
+                            <p className="text-gray-400 text-center">No Data Available</p>
+                        )}
+
+                    </div>
+                )}
+                {/* TRANSACTIONS */}
+                <div className='w-full max-w-md mt-1 bg-white/10 p-4 rounded-lg'>
+
+                    <div className='flex justify-between flex-wrap'>
+                        <h2 className='font-bold mb-2 text-xl'>Transactions</h2>
+
+                        {/* search  */}
+
+                        <input onChange={(e) => setFilterData(e.target.value)} type="text" placeholder='search entry' className=' bg-white text-black/80 py-1 px-1  rounded-lg outline-none' />
+
+                    </div>
+
+                    {filteredData.length === 0 ? (
+                        <p className='text-center text-red-400 mt-4 font-semibold'>No data yet</p>
                     ) : (
-                        transaction.map((item, index) => (
+                        filteredData.map((item, index) => (
                             <div
                                 key={index}
-                                className='flex  sm:flex-row justify-between items-start sm:items-center 
+                                className='flex  sm:flex-row justify-between mt-4 items-start sm:items-center 
                                 border-b border-white/20 py-2 text-sm gap-1'
                             >
                                 <span className='font-medium truncate w-1/3'>{item.title}</span>
 
-                                <span className={` w-1/3 ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
+                                <span className={` w-1/3 truncate ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     ₹ {item.amount}
                                 </span>
 
                                 <span className={`w-1/3 ${item.type === "expense" ? "text-red-500" : "text-green-400"}`}>
                                     {item.type}
                                 </span>
-                                <span  onClick={() => deleteItem(index)} className="cursor-pointer text-red-500 hover:scale-105 "><Trash /></span>
+
+                                <div className='flex gap-5 '>
+                                    <span onClick={() => editList(item.originalIndex)} className="cursor-pointer text-green-500 hover:scale-105 "><PencilIcon /></span>
+
+                                    <span onClick={() => deleteItem(item.originalIndex)} className="cursor-pointer text-red-500 hover:scale-105 "><Trash /></span>
+                                </div>
+
                             </div>
                         ))
                     )}
